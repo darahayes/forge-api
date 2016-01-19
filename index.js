@@ -23,6 +23,11 @@ server.route({
   }
 });
 
+var exercises = require('./lib/exercises');
+server.register(exercises, function(err) {
+  checkHapiPluginError(err);
+});
+
 var plugins = [
   Hapi_Cookie,
   Chairo
