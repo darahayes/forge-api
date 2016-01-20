@@ -16,6 +16,7 @@ function scheme (server, options) {
   return {
     authenticate: function (request, reply) {
       if (request.state['seneca-login']) {
+        console.log(request)
         var token = request.state['seneca-login']['seneca-login'];
         request.seneca.act({role: 'user', cmd:'auth', token: token}, function (err, resp) {
           if (err) return reply(err);
@@ -61,16 +62,19 @@ server.register(plugins, function (err) {
       ]
     });
 
-  server.start(() => {
-    console.log('Server running at:', server.info.uri);
-  });
+  seneca.ready(function(err) {
+    server.register(require('./lib/exercises'), function(err) {
+      checkHapiPluginError(err);
+    });
+
+    server.register(require('./lib/calendar'), function(err) {
+      checkHapiPluginError(err);
+    });
+
+    server.start(() => {
+      console.log('Server running at:', server.info.uri);
+    });
+  }); 
 });
 
 //register routes
-server.register(require('./lib/exercises'), function(err) {
-  checkHapiPluginError(err);
-});
-
-server.register(require('./lib/calendar'), function(err) {
-  checkHapiPluginError(err);
-});
