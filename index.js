@@ -4,58 +4,13 @@ var options = require('./config');
 var Hapi_Cookie = require('hapi-auth-cookie');
 var boom = require('boom');
 
+//connection options
 var server = new Hapi.Server();
 server.connection({ port: 3000 });
-// Register plugin
 
+//create authentication strategy
 server.auth.scheme('custom', scheme);
 server.auth.strategy('logged_in', 'custom');
-// server.auth.default('default');
-
-server.route({
-  method: 'GET',
-  path: '/api/hello',
-  config: {
-    auth: 'logged_in',
-    handler: function (request, reply) {
-      return reply.act({role: 'calendar', cmd: 'history', user: request.auth.credentials.login});
-    }
-  }
-});
-
-var exercises = require('./lib/exercises');
-server.register(exercises, function(err) {
-  checkHapiPluginError(err);
-});
-
-var plugins = [
-  Hapi_Cookie,
-  Chairo
-];
-
-server.register(plugins, function (err) {
-  checkHapiPluginError(err);
-  var seneca = server.seneca;
-
-  seneca
-    .use('mongo-store', options.mongo)
-    .use('progress-calendar')
-    .use('progress-exercises')
-    .use('user')
-    .use('auth', {
-      restrict: '/api',
-      server: 'hapi',
-      strategies: [
-        {
-          provider: 'local'
-        }
-      ]
-    });
-
-  server.start(() => {
-    console.log('Server running at:', server.info.uri);
-  });
-});
 
 function scheme (server, options) {
   return {
@@ -83,3 +38,39 @@ function checkHapiPluginError(error) {
     throw error;
   }
 }
+
+// Register plugins
+var plugins = [Hapi_Cookie, Chairo];
+
+server.register(plugins, function (err) {
+  checkHapiPluginError(err);
+  var seneca = server.seneca;
+
+  seneca
+    .use('mongo-store', options.mongo)
+    .use('progress-calendar')
+    .use('progress-exercises')
+    .use('user')
+    .use('auth', {
+      restrict: '/api',
+      server: 'hapi',
+      strategies: [
+        {
+          provider: 'local'
+        }
+      ]
+    });
+
+  server.start(() => {
+    console.log('Server running at:', server.info.uri);
+  });
+});
+
+//register routes
+server.register(require('./lib/exercises'), function(err) {
+  checkHapiPluginError(err);
+});
+
+server.register(require('./lib/calendar'), function(err) {
+  checkHapiPluginError(err);
+});
