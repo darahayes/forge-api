@@ -6,7 +6,7 @@ var boom = require('boom');
 
 //connection options
 var server = new Hapi.Server();
-server.connection({ port: 3000 });
+server.connection({ port: 3000, routes: { cors: true } });
 
 //create authentication strategy
 server.auth.scheme('custom', scheme);
