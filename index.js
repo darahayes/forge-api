@@ -1,37 +1,12 @@
 var Chairo = require('chairo');
 var Hapi = require('hapi');
 var options = require('./config');
-var Hapi_Cookie = require('hapi-auth-cookie');
 var boom = require('boom');
+var jwt = require('hapi-auth-jwt2');
 
 //connection options
 var server = new Hapi.Server();
 server.connection({ port: 3000, routes: { cors: true } });
-
-//create authentication strategy
-server.auth.scheme('custom', scheme);
-server.auth.strategy('logged_in', 'custom');
-
-function scheme (server, options) {
-  return {
-    authenticate: function (request, reply) {
-      if (request.state['seneca-login']) {
-        console.log(request)
-        var token = request.state['seneca-login']['seneca-login'];
-        request.seneca.act({role: 'user', cmd:'auth', token: token}, function (err, resp) {
-          if (err) return reply(err);
-          if (resp.ok === false) {
-            return reply('login not ok');
-          }
-          return reply.continue({ credentials: { login: resp.login } });
-        });
-      }
-      else {
-        return reply(boom.unauthorized('You must be logged in to continue'));
-      }
-    }
-  };
-}
 
 function checkHapiPluginError(error) {
   if (error) {
@@ -41,7 +16,7 @@ function checkHapiPluginError(error) {
 }
 
 // Register plugins
-var plugins = [Hapi_Cookie, Chairo];
+var plugins = [Chairo, jwt];
 
 server.register(plugins, function (err) {
   checkHapiPluginError(err);
@@ -51,23 +26,19 @@ server.register(plugins, function (err) {
     .use('mongo-store', options.mongo)
     .use('progress-calendar')
     .use('progress-exercises')
-    .use('user')
-    .use('auth', {
-      restrict: '/api',
-      server: 'hapi',
-      strategies: [
-        {
-          provider: 'local'
-        }
-      ]
-    });
+    .use('user');
+
+  server.auth.strategy('jwt', 'jwt', {
+    key: options.jwtKey,
+    validateFunc: authenticate
+  });
 
   seneca.ready(function(err) {
-    server.register(require('./lib/exercises'), function(err) {
+    server.register(require('./routes/exercises'), function(err) {
       checkHapiPluginError(err);
     });
 
-    server.register(require('./lib/calendar'), function(err) {
+    server.register(require('./routes/calendar'), function(err) {
       checkHapiPluginError(err);
     });
 
@@ -77,4 +48,19 @@ server.register(plugins, function (err) {
   }); 
 });
 
-//register routes
+server.register(require('./routes/auth'), function(err) {
+  checkHapiPluginError(err);
+});
+
+function authenticate(decoded, request, cb) {
+    // console.log(request)
+    console.log('Decoded', decoded)
+    var token = decoded.token;
+    request.seneca.act({role: 'user', cmd:'auth', token: token}, function (err, resp) {
+      if (err) return cb(err);
+      if (resp.ok === false) {
+        return cb(null, false)
+      }
+      return cb(null, true)
+    });
+  }
