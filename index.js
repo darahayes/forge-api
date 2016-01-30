@@ -6,11 +6,14 @@ var jwt = require('hapi-auth-jwt2');
 
 //connection options
 var server = new Hapi.Server();
-server.connection({ port: 3000, routes: { cors: true } });
+server.connection({ port: 4000, routes: { cors: {additionalExposedHeaders: ['Authorization', 'authorization'], credentials: true} } });
+// server.ext('onPreResponse', cors);
+
+
 
 function checkHapiPluginError(error) {
   if (error) {
-    console.log('An error occurred while loading a hapu plugin');
+    console.log('An error occurred while loading a hapi plugin');
     throw error;
   }
 }
@@ -55,7 +58,7 @@ server.register(require('./routes/auth'), function(err) {
 function authenticate(decoded, request, cb) {
     // console.log(request)
     console.log('Decoded', decoded)
-    var token = decoded.token;
+    var token = decoded;
     request.seneca.act({role: 'user', cmd:'auth', token: token}, function (err, resp) {
       if (err) return cb(err);
       if (resp.ok === false) {
