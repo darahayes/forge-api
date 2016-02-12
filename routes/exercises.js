@@ -25,7 +25,10 @@ exports.register = function(server, options, next) {
         method: 'GET',
         path: options.basePath,
         config: {
-          auth: 'jwt',
+          auth: {
+            mode: 'try',
+            strategy: 'jwt'
+          },
           handler: list_exercises
         }
       },
@@ -49,7 +52,8 @@ exports.register = function(server, options, next) {
     }
 
     function list_exercises(request, reply) {
-      return reply.act({role: 'exercises', cmd: 'list', created_by: request.auth.credentials.user});
+      var user = (request.auth.credentials) ? request.auth.credentials.user : null
+      return reply.act({role: 'exercises', cmd: 'list', created_by: user});
     }
 
     function remove_exercises(request, reply) {

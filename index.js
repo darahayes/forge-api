@@ -60,7 +60,7 @@ function authenticate(decoded, request, cb) {
     console.log('Decoded', decoded)
     var token = decoded;
     request.seneca.act({role: 'user', cmd:'auth', token: token}, function (err, resp) {
-      if (err) return cb(err);
+      if (err) return cb(null, err);
       if (resp.ok === false) {
         return cb(null, false)
       }
