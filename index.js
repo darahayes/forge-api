@@ -19,7 +19,7 @@ function checkHapiPluginError(error) {
 }
 
 // Register plugins
-var plugins = [Chairo, jwt];
+var plugins = [{register: Chairo}, {register: jwt}];
 
 server.register(plugins, function (err) {
   checkHapiPluginError(err);
@@ -45,14 +45,14 @@ server.register(plugins, function (err) {
       checkHapiPluginError(err);
     });
 
+    server.register(require('./routes/auth'), function(err) {
+      checkHapiPluginError(err);
+    });
+
     server.start(() => {
       console.log('Server running at:', server.info.uri);
     });
   }); 
-});
-
-server.register(require('./routes/auth'), function(err) {
-  checkHapiPluginError(err);
 });
 
 function authenticate(decoded, request, cb) {
