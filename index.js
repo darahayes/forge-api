@@ -5,8 +5,8 @@ var boom = require('boom');
 var jwt = require('hapi-auth-jwt2');
 
 //connection options
-var server = new Hapi.Server();
-server.connection({ port: 4000, routes: { cors: {additionalExposedHeaders: ['Authorization', 'authorization'], credentials: true} } });
+var server = new Hapi.Server(options.hapi.server);
+server.connection(options.hapi.connection);
 // server.ext('onPreResponse', cors);
 
 
