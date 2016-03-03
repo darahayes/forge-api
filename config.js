@@ -1,12 +1,13 @@
 module.exports = {
 	mongo: {
-	 	name: 'progress',
-	 	host: '127.0.0.1',
-	 	port: 27017
+	 	name: process.env.MONGO_NAME || 'progress',
+	 	host: process.env.MONGO_HOST || '127.0.0.1',
+	 	port: process.env.MONGO_PORT || 27017
  },
 	hapi: {
 		connection: {
-			port: 4000
+			host: process.env.HOST || '0.0.0.0',
+			port: process.env.API_PORT || 4000
 		},
 		server: {
 			connections: {
@@ -23,5 +24,5 @@ module.exports = {
 			}
 		}
 	},
- jwtKey: 'password'
+ jwtKey: process.env.JWT_KEY || 'password'
 };
