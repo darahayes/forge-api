@@ -1,13 +1,15 @@
-var _ = require('lodash');
-var Joi = require('joi');
-var Boom = require('boom');
-var moment = require('moment');
-var validations = require('../lib/validations');
+'use strict';
+
+const _ = require('lodash');
+const Joi = require('joi');
+const Boom = require('boom');
+const Moment = require('moment');
+const Validations = require('../lib/validations');
 
 exports.register = function(server, options, next) {
     options = { basePath: '/api/calendar' };
 
-    var routes = [
+    const routes = [
       {
         method: 'GET',
         path: options.basePath,
@@ -28,8 +30,8 @@ exports.register = function(server, options, next) {
           auth: 'jwt',
           validate: {
             payload: {
-              date: Joi.date().format('MM-DD-YYYY').default(moment().format("MM-DD-YYYY")),
-              exercises: validations.exercise
+              date: Joi.date().format('MM-DD-YYYY').default(Moment().format('MM-DD-YYYY')),
+              exercises: Validations.exercise
             }
           },
           handler: log_workout
@@ -38,19 +40,19 @@ exports.register = function(server, options, next) {
     ];
 
     function log_workout(request, reply) {
-      var msg = {
-                  role: 'calendar',
-                  cmd : 'save',
-                  user: request.auth.credentials.user,
-                  workout: request.payload
-                };
-      request.seneca.act(msg, function(err, resp) {
+      let msg = {
+        role: 'calendar',
+        cmd : 'save',
+        user: request.auth.credentials.user,
+        workout: request.payload
+      };
+      request.seneca.act(msg, (err, resp) => {
         return reply(err, resp);
       });
     }
 
     function history(request, reply) {
-      var msg = {role: 'calendar', cmd: 'history', user: request.auth.credentials.user};
+      let msg = {role: 'calendar', cmd: 'history', user: request.auth.credentials.user};
       msg = (request.payload.date) ? _.extend({date: request.payload.date}, msg) : msg;
       return reply.act(msg);
     }

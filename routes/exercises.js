@@ -1,11 +1,13 @@
-var _ = require('lodash');
-var Joi = require('joi');
-var Boom = require('boom');
+'use strict';
+
+const _ = require('lodash');
+const Joi = require('joi');
+const Boom = require('boom');
 
 exports.register = function(server, options, next) {
     options = { basePath: '/api/exercises' };
 
-    var routes = [
+    const routes = [
       {
         method: 'POST',
         path: options.basePath,
@@ -44,15 +46,15 @@ exports.register = function(server, options, next) {
 
     function save_exercise(request, reply) {
       console.log('\n\n\n\nPARAMS\n\n\n\n', request.payload);
-      var msg = _.extend({role: 'exercises', cmd: 'save', created_by: request.auth.credentials.user}, request.payload);
-      request.seneca.act(msg, function(err, out) {
+      let msg = _.extend({role: 'exercises', cmd: 'save', created_by: request.auth.credentials.user}, request.payload);
+      request.seneca.act(msg, (err, out) => {
         if (err) return reply(Boom.expectationFailed('Error Saving Exercise'));
         return reply(out);
       });
     }
 
     function list_exercises(request, reply) {
-      var user = (request.auth.credentials) ? request.auth.credentials.user : null
+      let user = (request.auth.credentials) ? request.auth.credentials.user : null
       return reply.act({role: 'exercises', cmd: 'list', created_by: user});
     }
 
