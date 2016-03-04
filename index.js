@@ -1,12 +1,14 @@
-var Chairo = require('chairo');
-var Hapi = require('hapi');
-var options = require('./config');
-var boom = require('boom');
-var jwt = require('hapi-auth-jwt2');
+'use strict';
+
+const Chairo = require('chairo');
+const Hapi = require('hapi');
+const Options = require('./config');
+const Boom = require('boom');
+const Jwt = require('hapi-auth-jwt2');
 
 //connection options
-var server = new Hapi.Server(options['hapi-server']);
-server.connection(options['hapi-connection']);
+const server = new Hapi.Server(Options['hapi-server']);
+server.connection(Options['hapi-connection']);
 // server.ext('onPreResponse', cors);
 
 function checkHapiPluginError(error) {
@@ -17,32 +19,32 @@ function checkHapiPluginError(error) {
 }
 
 // Register plugins
-var plugins = [{register: Chairo}, {register: jwt}];
+const plugins = [{register: Chairo}, {register: Jwt}];
 
-server.register(plugins, function (err) {
+server.register(plugins, (err) => {
   checkHapiPluginError(err);
-  var seneca = server.seneca;
+  const seneca = server.seneca;
 
-  seneca.ready(function(err) {
+  seneca.ready((err) => {
 
     server.auth.strategy('jwt', 'jwt', {
-      key: options.jwtKey,
+      key: Options.jwtKey,
       validateFunc: authenticate
     });
 
-    server.register(require('./routes/exercises'), function(err) {
+    server.register(require('./routes/exercises'), (err) => {
       checkHapiPluginError(err);
     });
 
-    server.register(require('./routes/calendar'), function(err) {
+    server.register(require('./routes/calendar'), (err) => {
       checkHapiPluginError(err);
     });
 
-    server.register(require('./routes/auth'), function(err) {
+    server.register(require('./routes/auth'), (err) => {
       checkHapiPluginError(err);
     });
 
-    options.clients.forEach(function(opts) {
+    Options.clients.forEach(function(opts) {
       console.log('Registering Client', JSON.stringify(opts))
       seneca.client(opts);
     })
@@ -56,8 +58,8 @@ server.register(plugins, function (err) {
 function authenticate(decoded, request, cb) {
   // console.log(request)
   console.log('Decoded', decoded)
-  var token = decoded;
-  request.seneca.act({role: 'user', cmd:'auth', token: token}, function (err, resp) {
+  const token = decoded;
+  request.seneca.act({role: 'user', cmd:'auth', token: token}, (err, resp) => {
     if (err) return cb(null, err);
     if (resp.ok === false) {
       return cb(null, false)
