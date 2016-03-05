@@ -37,5 +37,11 @@ module.exports = {
       pin: 'role:user,cmd:*'
     }
   ],
- jwtKey: process.env.JWT_KEY || 'password'
+  'mongo': {
+    name: process.env.MONGO_NAME || 'progress',
+    host: process.env.MONGO_HOST || '127.0.0.1',
+    port: process.env.MONGO_PORT || 27017
+  },
+ jwtKey: process.env.JWT_KEY || 'password',
+ production: process.env.PRODUCTION || false
 };
