@@ -8,10 +8,11 @@ module.exports = {
         } 
       }
     },
-    debug: {
+    debug: (process.env.DEBUG) ? 
+    {
       log: [],
       request: ['received', 'auth jwt', 'handler', 'handler-error', 'response', 'response-error', 'validation-error']
-    }
+    } : undefined 
   },
   'hapi-connection': {
     host: process.env.HOST || '0.0.0.0',
@@ -40,7 +41,9 @@ module.exports = {
   'mongo': {
     name: process.env.MONGO_NAME || 'progress',
     host: process.env.MONGO_HOST || '127.0.0.1',
-    port: process.env.MONGO_PORT || 27017
+    port: process.env.MONGO_PORT || 27017,
+    username: process.env.MONGO_USERNAME,
+    password: process.env.MONGO_PASSWORD
   },
  jwtKey: process.env.JWT_KEY || 'password',
  production: process.env.PRODUCTION || false
