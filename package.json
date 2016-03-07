@@ -7,7 +7,7 @@
     "node": "^4.2.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "lab"
   },
   "repository": {
     "type": "git",
@@ -35,5 +35,9 @@
     "seneca-mongo-store": "darragh-hayes/seneca-mongo-store",
     "seneca-user": "0.2.10",
     "seneca-web": "0.5.0"
+  },
+  "devDependencies": {
+    "code": "^2.1.0",
+    "lab": "^10.2.0"
   }
 }
