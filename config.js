@@ -1,3 +1,5 @@
+const trueVals = ['true', 'TRUE', '1', 'YES', 'yes', 'y', 'Y'];
+
 module.exports = {
   'hapi-server': {
     connections: {
@@ -8,13 +10,14 @@ module.exports = {
         } 
       }
     },
-    debug: {
+    debug: (includes(trueVals, process.env.API_DEBUG)) ? 
+    {
       log: [],
       request: ['received', 'auth jwt', 'handler', 'handler-error', 'response', 'response-error', 'validation-error']
-    }
+    } : false 
   },
   'hapi-connection': {
-    host: process.env.HOST || '0.0.0.0',
+    host: process.env.API_HOST || '0.0.0.0',
     port: process.env.API_PORT || 4000
   },
   clients: [
@@ -40,8 +43,14 @@ module.exports = {
   'mongo': {
     name: process.env.MONGO_NAME || 'progress',
     host: process.env.MONGO_HOST || '127.0.0.1',
-    port: process.env.MONGO_PORT || 27017
+    port: process.env.MONGO_PORT || 27017,
+    username: process.env.MONGO_USERNAME,
+    password: process.env.MONGO_PASSWORD
   },
  jwtKey: process.env.JWT_KEY || 'password',
- production: process.env.PRODUCTION || false
+ production: includes(trueVals, process.env.PRODUCTION) || false
 };
+
+function includes(array, item) {
+  return (array.indexOf(item) > -1)
+}
