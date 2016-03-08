@@ -14,9 +14,10 @@ const before = lab.before;
 const expect = Code.expect;
 
 before(function (done) {
-    api.on('pluginsLoaded', () => {
-      done();
-    });
+  api.on('pluginsLoaded', () => {
+    console.log('API Plugins loaded')
+    done();
+  });
 });
 
 describe('Testing exercises routes', () => {

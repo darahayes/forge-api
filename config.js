@@ -1,3 +1,5 @@
+const trueVals = ['true', 'TRUE', '1', 'YES', 'yes', 'y', 'Y'];
+
 module.exports = {
   'hapi-server': {
     connections: {
@@ -8,14 +10,14 @@ module.exports = {
         } 
       }
     },
-    debug: (process.env.DEBUG) ? 
+    debug: (includes(trueVals, process.env.API_DEBUG)) ? 
     {
       log: [],
       request: ['received', 'auth jwt', 'handler', 'handler-error', 'response', 'response-error', 'validation-error']
-    } : undefined 
+    } : false 
   },
   'hapi-connection': {
-    host: process.env.HOST || '0.0.0.0',
+    host: process.env.API_HOST || '0.0.0.0',
     port: process.env.API_PORT || 4000
   },
   clients: [
@@ -46,5 +48,9 @@ module.exports = {
     password: process.env.MONGO_PASSWORD
   },
  jwtKey: process.env.JWT_KEY || 'password',
- production: process.env.PRODUCTION || false
+ production: includes(trueVals, process.env.PRODUCTION) || false
 };
+
+function includes(array, item) {
+  return (array.indexOf(item) > -1)
+}
