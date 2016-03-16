@@ -1,7 +1,7 @@
 {
-  "name": "progress-api",
+  "name": "forge-api",
   "version": "0.0.1",
-  "description": "api gateway for progress-backend",
+  "description": "api gateway for the forge app. https://github.com/darragh-hayes/forge-app",
   "main": "index.js",
   "engines": {
     "node": "^4.2.1"
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/darragh-hayes/progress-api.git"
+    "url": "https://github.com/darragh-hayes/forge-api.git"
   },
   "author": "Darragh Hayes",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/darragh-hayes/progress-api/issues"
+    "url": "https://github.com/darragh-hayes/forge-api/issues"
   },
-  "homepage": "https://github.com/darragh-hayes/progress-api",
+  "homepage": "https://github.com/darragh-hayes/forge-api",
   "dependencies": {
     "boom": "3.1.1",
     "chairo": "2.0.0",
@@ -28,9 +28,9 @@
     "jsonwebtoken": "5.5.4",
     "lodash": "^4.0.0",
     "moment": "2.11.1",
-    "progress-calendar": "darragh-hayes/progress-calendar",
-    "progress-exercises": "darragh-hayes/progress-exercises",
-    "progress-users": "darragh-hayes/progress-users",
+    "forge-calendar": "darragh-hayes/forge-calendar",
+    "forge-exercises": "darragh-hayes/forge-exercises",
+    "forge-users": "darragh-hayes/forge-users",
     "request": "2.67.0",
     "seneca-mongo-store": "darragh-hayes/seneca-mongo-store",
     "seneca-user": "0.2.10",
