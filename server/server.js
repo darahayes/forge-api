@@ -5,6 +5,7 @@ const Hapi = require('hapi');
 const Options = require('../config');
 const Boom = require('boom');
 const Jwt = require('hapi-auth-jwt2');
+const Good = require('good');
 
 //connection options
 const server = new Hapi.Server(Options['hapi-server']);
@@ -39,6 +40,10 @@ const plugins = [
   },
   {
     register: require('../routes/calendar')
+  },
+  {
+    register: Good,
+    options: Options.good
   }
 ];
 

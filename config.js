@@ -7,10 +7,6 @@ module.exports = {
           credentials: true
         } 
       }
-    },
-    debug: {
-      log: [],
-      request: ['received', 'auth jwt', 'handler', 'handler-error', 'response', 'response-error', 'validation-error']
     }
   },
   'hapi-connection': {
@@ -41,6 +37,15 @@ module.exports = {
     name: process.env.MONGO_NAME || 'forge',
     host: process.env.MONGO_HOST || '127.0.0.1',
     port: process.env.MONGO_PORT || 27017
+  },
+  'good': {
+    reporters: [{
+      reporter: require('good-console'),
+      events: {
+          response: '*',
+          log: '*'
+      }
+    }]
   },
  jwtKey: process.env.JWT_KEY || 'password',
  production: process.env.PRODUCTION || false
