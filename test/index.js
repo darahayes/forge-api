@@ -1,6 +1,6 @@
 'use strict';
 
-var server = require('../server/server_monolith')
+var server = require('../server/server')
 const Code = require('code');
 const Lab = require('lab');
 // shortcuts
