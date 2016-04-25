@@ -45,7 +45,7 @@ exports.register = function(server, options, next) {
       let msg = {
         role: 'calendar',
         cmd: 'save_history',
-        userId: request.auth.credentials.id,
+        userId: request.auth.credentials.user,
         workouts: request.payload.workouts
       }
       request.seneca.act(msg, (err, result) => {
@@ -61,7 +61,7 @@ exports.register = function(server, options, next) {
       let msg = {
         role: 'calendar',
         cmd: 'get_history',
-        userId: request.auth.credentials.id
+        userId: request.auth.credentials.user
       };
       request.seneca.act(msg, (err, result) => {
         if (err){
@@ -76,7 +76,7 @@ exports.register = function(server, options, next) {
       let msg = {
         role: 'calendar',
         cmd: 'get_sync_token',
-        userId: request.auth.credentials.id
+        userId: request.auth.credentials.user
       }
       request.seneca.act(msg, (err, result) => {
         if (err){

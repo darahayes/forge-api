@@ -44,7 +44,7 @@ lab.before((done) => {
         if (response.result.user) {
           console.log('created test user');
           console.log(JSON.stringify(response.result.user))
-          testCredentials = response.result.user;
+          testCredentials = {id: response.result.user.id};
           done()
         }
       });
