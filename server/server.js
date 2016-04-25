@@ -65,7 +65,7 @@ server.register(plugins, (err) => {
     else {
       console.log('Running in development mode');
       seneca
-        .use('mongo-store', Options.mongo)
+        // .use('mongo-store', Options.mongo)
         .use('forge-calendar')
         .use('forge-exercises')
         .use('user');

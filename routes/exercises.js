@@ -54,8 +54,15 @@ exports.register = function(server, options, next) {
     }
 
     function list_exercises(request, reply) {
+      console.log('List Exercises')
+      console.log(request.auth.credentials)
       let user = (request.auth.credentials) ? request.auth.credentials.user : null
-      return reply.act({role: 'exercises', cmd: 'list', created_by: user});
+      request.seneca.act({role: 'exercises', cmd: 'list', created_by: user}, (err, result) => {
+        if (err) {
+          return Boom.unexpectedError(err);
+        }
+        return reply(result)
+      });
     }
 
     function remove_exercises(request, reply) {
