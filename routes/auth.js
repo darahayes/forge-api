@@ -59,7 +59,7 @@ exports.register = function(server, options, next) {
 					console.log(err)
 				}
 				console.log('token!', out.login.token)
-				let token = Jwt.sign(out.login.token, options.jwtKey);
+				let token = Jwt.sign({user: out.login.user, token: out.login.token}, options.jwtKey);
 				console.log('token', token)
 				return reply({user: clean_user(out.user), token: token});
 			});
@@ -75,7 +75,7 @@ exports.register = function(server, options, next) {
 			}
 			if (!out.ok) { return reply(Boom.badRequest(out.why)) }
 			console.log(out);
-			let token = Jwt.sign(out.login.token, options.jwtKey);
+			let token = Jwt.sign({user: out.login.user, token: out.login.token}, options.jwtKey);
 			console.log('token', token)
 			//return the qorkout history as part of login
 			request.seneca.act({role: 'calendar', cmd: 'history', user: out.user}, (err, workouts) => {
@@ -87,7 +87,7 @@ exports.register = function(server, options, next) {
 
 	function logout(request, reply) {
 		console.log('logout called');
-		request.seneca.act({role: 'user', cmd: 'logout', token: request.auth.credentials}, (err, result) => {
+		request.seneca.act({role: 'user', cmd: 'logout', token: request.auth.credentials.token}, (err, result) => {
 			if (err) {
 				console.log('error', err);
 				return reply(Boom.expectationFailed('Something went wrong, please try again.'));

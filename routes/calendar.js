@@ -78,6 +78,7 @@ exports.register = function(server, options, next) {
         cmd: 'get_sync_token',
         userId: request.auth.credentials.user
       }
+      console.log('credentials',request.auth.credentials)
       request.seneca.act(msg, (err, result) => {
         if (err){
           return reply(Boom.unexpectedError(err));
