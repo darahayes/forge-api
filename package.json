@@ -32,7 +32,7 @@
     "joi": "7.2.0",
     "jsonwebtoken": "5.5.4",
     "lodash": "^4.0.0",
-    "moment": "2.11.1",
+    "moment": "2.19.3",
     "request": "2.67.0",
     "seneca-mongo-store": "darragh-hayes/seneca-mongo-store",
     "seneca-user": "0.2.10",
