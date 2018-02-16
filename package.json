@@ -21,7 +21,7 @@
   "homepage": "https://github.com/darragh-hayes/forge-api",
   "dependencies": {
     "boom": "3.1.1",
-    "chairo": "2.0.0",
+    "chairo": "4.0.0",
     "forge-calendar": "darragh-hayes/forge-calendar",
     "forge-exercises": "darragh-hayes/forge-exercises",
     "forge-users": "darragh-hayes/forge-users",
