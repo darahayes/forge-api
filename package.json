@@ -7,7 +7,9 @@
     "node": "^4.2.1"
   },
   "scripts": {
-    "test": "lab"
+    "test": "lab",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -21,7 +23,7 @@
   "homepage": "https://github.com/darragh-hayes/forge-api",
   "dependencies": {
     "boom": "3.1.1",
-    "chairo": "2.0.0",
+    "chairo": "3.0.0",
     "forge-calendar": "darragh-hayes/forge-calendar",
     "forge-exercises": "darragh-hayes/forge-exercises",
     "forge-users": "darragh-hayes/forge-users",
@@ -33,13 +35,15 @@
     "jsonwebtoken": "5.5.4",
     "lodash": "^4.0.0",
     "moment": "2.11.1",
-    "request": "2.67.0",
+    "request": "2.81.0",
     "seneca-mongo-store": "darragh-hayes/seneca-mongo-store",
     "seneca-user": "0.2.10",
-    "seneca-web": "0.5.0"
+    "seneca-web": "1.0.0",
+    "snyk": "^1.85.0"
   },
   "devDependencies": {
     "code": "^2.1.0",
     "lab": "^10.2.0"
-  }
+  },
+  "snyk": true
 }
