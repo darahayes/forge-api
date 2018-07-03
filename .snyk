@@ -1,0 +1,18 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.12.0
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  'npm:lodash:20180130':
+    - forge-users > seneca > seneca-repl > lodash:
+        patched: '2018-07-03T01:07:11.284Z'
+    - forge-users > seneca > seneca-mem-store > lodash:
+        patched: '2018-07-03T01:07:11.284Z'
+    - forge-calendar > seneca > seneca-repl > lodash:
+        patched: '2018-07-03T01:07:11.284Z'
+    - forge-calendar > seneca > seneca-mem-store > lodash:
+        patched: '2018-07-03T01:07:11.284Z'
+    - forge-exercises > seneca > seneca-repl > lodash:
+        patched: '2018-07-03T01:07:11.284Z'
+    - forge-exercises > seneca > seneca-mem-store > lodash:
+        patched: '2018-07-03T01:07:11.284Z'
