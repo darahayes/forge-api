@@ -7,7 +7,9 @@
     "node": "^4.2.1"
   },
   "scripts": {
-    "test": "lab"
+    "test": "lab",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -36,10 +38,12 @@
     "request": "2.67.0",
     "seneca-mongo-store": "darragh-hayes/seneca-mongo-store",
     "seneca-user": "0.2.10",
-    "seneca-web": "0.5.0"
+    "seneca-web": "0.5.0",
+    "snyk": "^1.189.0"
   },
   "devDependencies": {
     "code": "^2.1.0",
     "lab": "^10.2.0"
-  }
+  },
+  "snyk": true
 }
