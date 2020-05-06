@@ -1,0 +1,37 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.14.1
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  'npm:debug:20170905':
+    - forge-users > seneca > seneca-web > connect > debug:
+        patched: '2020-05-06T00:34:50.454Z'
+    - forge-users > seneca > seneca-web > connect > finalhandler > debug:
+        patched: '2020-05-06T00:34:50.454Z'
+    - forge-users > seneca > seneca-web > serve-static > send > debug:
+        patched: '2020-05-06T00:34:50.454Z'
+  'npm:hoek:20180212':
+    - forge-users > seneca > seneca-transport > wreck > hoek:
+        patched: '2020-05-06T00:34:50.454Z'
+    - forge-users > seneca > seneca-transport > wreck > boom > hoek:
+        patched: '2020-05-06T00:34:50.454Z'
+  SNYK-JS-LODASH-567746:
+    - forge-users > seneca > seneca-transport > patrun > lodash:
+        patched: '2020-05-06T00:34:50.454Z'
+  'npm:lodash:20180130':
+    - forge-users > seneca > seneca-mem-store > lodash:
+        patched: '2020-05-06T00:34:50.454Z'
+    - forge-users > seneca > seneca-repl > lodash:
+        patched: '2020-05-06T00:34:50.454Z'
+  'npm:mime:20170907':
+    - forge-users > seneca > seneca-web > serve-static > send > mime:
+        patched: '2020-05-06T00:34:50.454Z'
+  'npm:ms:20170412':
+    - forge-users > seneca > seneca-web > connect > debug > ms:
+        patched: '2020-05-06T00:34:50.454Z'
+    - forge-users > seneca > seneca-web > serve-static > send > ms:
+        patched: '2020-05-06T00:34:50.454Z'
+    - forge-users > seneca > seneca-web > connect > finalhandler > debug > ms:
+        patched: '2020-05-06T00:34:50.454Z'
+    - forge-users > seneca > seneca-web > serve-static > send > debug > ms:
+        patched: '2020-05-06T00:34:50.454Z'
